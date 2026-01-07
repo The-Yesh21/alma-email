@@ -5,7 +5,27 @@ from email.message import EmailMessage
 import os
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})  # Allow all origins
+
+# CORS Configuration - Allow specific origins with credentials
+# For development: localhost on various ports
+# For production: add your production domain
+ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Vite default
+    "http://localhost:8081",  # Your frontend
+    "http://localhost:3000",  # React default
+    "http://localhost:5000",  # Alternative
+    "https://your-production-domain.com",  # Replace with actual domain
+]
+
+# Configure CORS with proper settings
+CORS(app, 
+     resources={r"/*": {
+         "origins": ALLOWED_ORIGINS,
+         "methods": ["GET", "POST", "OPTIONS"],
+         "allow_headers": ["Content-Type", "Authorization"],
+         "supports_credentials": True,
+         "max_age": 3600
+     }})
 
 # Email configuration (from environment variables or defaults)
 EMAIL_ADDRESS = os.environ.get('EMAIL_ADDRESS', 'yeshwanth9750@gmail.com')
