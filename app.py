@@ -18,14 +18,10 @@ ALLOWED_ORIGINS = [
 ]
 
 # Configure CORS with proper settings
-CORS(app, 
-     resources={r"/*": {
-         "origins": ALLOWED_ORIGINS,
-         "methods": ["GET", "POST", "OPTIONS"],
-         "allow_headers": ["Content-Type", "Authorization"],
-         "supports_credentials": True,
-         "max_age": 3600
-     }})
+# Configure CORS with simpler settings to avoid potential configuration issues
+# origins=ALLOWED_ORIGINS handles list correctly
+# supports_credentials=True enables credentials
+CORS(app, origins=ALLOWED_ORIGINS, supports_credentials=True)
 
 # Email configuration (from environment variables or defaults)
 EMAIL_ADDRESS = os.environ.get('EMAIL_ADDRESS', 'yeshwanth9750@gmail.com')
